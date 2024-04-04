@@ -5,7 +5,6 @@ import { Manage } from "../homepage/manage";
 import { Invest } from "../homepage/invest";
 
 const StyledView = styled(View, {
-  paddingHorizontal: 30,
   paddingTop: 40,
   backgroundColor: "#00162B",
   width: "100%",

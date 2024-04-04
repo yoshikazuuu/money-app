@@ -12,6 +12,7 @@ import {
   YStack,
 } from "tamagui";
 import { LinearGradient } from "@tamagui/linear-gradient";
+import { Banknote, CreditCard, Landmark } from "@tamagui/lucide-icons";
 
 const StyledView = styled(View, {
   paddingHorizontal: 30,
@@ -115,8 +116,12 @@ function Profile() {
                 borderRadius: 10,
                 height: 100,
                 width: 100,
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            ></View>
+            >
+              <Landmark size={50} />
+            </View>
             <Text fontSize={10}>BANK BALANCE</Text>
           </View>
           <View
@@ -133,8 +138,12 @@ function Profile() {
                 borderRadius: 10,
                 height: 100,
                 width: 100,
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            ></View>
+            >
+              <Banknote size={50} />
+            </View>
             <Text fontSize={10}>PHYSICAL CASH</Text>
           </View>
         </View>
@@ -167,9 +176,13 @@ function Profile() {
                 borderRadius: 10,
                 height: 100,
                 width: 100,
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            ></View>
-            <Text fontSize={10}>BANK BALANCE</Text>
+            >
+              <CreditCard size={50} />
+            </View>
+            <Text fontSize={10}>CREDIT CARD</Text>
           </View>
           <View
             style={{
@@ -185,9 +198,13 @@ function Profile() {
                 borderRadius: 10,
                 height: 100,
                 width: 100,
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            ></View>
-            <Text fontSize={10}>PHYSICAL CASH</Text>
+            >
+              <CreditCard size={50} />
+            </View>
+            <Text fontSize={10}>DEBIT CARD</Text>
           </View>
         </View>
       </View>

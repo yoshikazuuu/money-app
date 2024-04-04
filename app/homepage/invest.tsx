@@ -21,7 +21,12 @@ interface CardProps {
 export function Invest() {
   return (
     <ScrollView width="100%" showsVerticalScrollIndicator={false}>
-      <YStack flex={1}>
+      <YStack
+        flex={1}
+        style={{
+          paddingHorizontal: 30,
+        }}
+      >
         {cards.map((card, idx) => (
           <Card key={idx} {...card} />
         ))}

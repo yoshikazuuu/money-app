@@ -16,7 +16,8 @@ export default function TabLayout() {
           backgroundColor: "rgba(114, 161, 237, 0.6)",
           position: "absolute",
           bottom: 0,
-          borderRadius: 25,
+          borderTopEndRadius: 25,
+          borderTopStartRadius: 25,
         },
       }}
     >
