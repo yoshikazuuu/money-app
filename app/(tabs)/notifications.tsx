@@ -42,7 +42,7 @@ export default function NotificationScreen() {
         <Button
           themeInverse
           size="$2"
-          style={{ borderRadius: "100%", paddingHorizontal: 20 }}
+          style={{ borderRadius: 100, paddingHorizontal: 20 }}
         >
           Notification
         </Button>

@@ -20,7 +20,11 @@ interface CardProps {
 
 export function Invest() {
   return (
-    <ScrollView width="100%" showsVerticalScrollIndicator={false}>
+    <ScrollView
+      marginTop={40}
+      width="100%"
+      showsVerticalScrollIndicator={false}
+    >
       <YStack
         flex={1}
         style={{
@@ -54,7 +58,7 @@ function Card({ title, amount, href }: CardProps) {
         IDR {amount}
       </Text>
       <Button
-        style={{ borderRadius: "100%" }}
+        style={{ borderRadius: 100 }}
         paddingHorizontal="$5"
         themeInverse
         size="$1"

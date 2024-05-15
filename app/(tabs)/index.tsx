@@ -5,7 +5,6 @@ import { Manage } from "../homepage/manage";
 import { Invest } from "../homepage/invest";
 
 const StyledView = styled(View, {
-  paddingTop: 40,
   backgroundColor: "#00162B",
   width: "100%",
   borderTopLeftRadius: 30,
@@ -29,7 +28,7 @@ export default function TabOneScreen() {
         <Button
           themeInverse
           size="$2"
-          style={{ borderRadius: "100%", paddingHorizontal: 20 }}
+          style={{ borderRadius: 100, paddingHorizontal: 20 }}
           backgroundColor={isManage ? "white" : "rgba(255,255,255,0.2)"}
           color={isManage ? "black" : "white"}
           onPress={() => {
@@ -41,7 +40,7 @@ export default function TabOneScreen() {
         <Button
           themeInverse
           size="$2"
-          style={{ borderRadius: "100%", paddingHorizontal: 20 }}
+          style={{ borderRadius: 100, paddingHorizontal: 20 }}
           backgroundColor={!isManage ? "white" : "rgba(255,255,255,0.2)"}
           color={!isManage ? "black" : "white"}
           onPress={() => {

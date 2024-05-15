@@ -38,7 +38,7 @@ export default function ProfileScreen() {
         <Button
           themeInverse
           size="$2"
-          style={{ borderRadius: "100%", paddingHorizontal: 20 }}
+          style={{ borderRadius: 100, paddingHorizontal: 20 }}
         >
           User Profile
         </Button>

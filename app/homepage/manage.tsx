@@ -1,9 +1,21 @@
 import { Plus } from "@tamagui/lucide-icons";
-import { H1, H4, H5, ScrollView, styled, Text, View, YStack } from "tamagui";
+import {
+  Button,
+  H1,
+  H4,
+  H5,
+  ScrollView,
+  styled,
+  Text,
+  View,
+  YStack,
+} from "tamagui";
 import { Chart } from "../../components/main-chart";
 
-import { Dimensions } from "react-native";
+import { Alert, Dimensions, Modal, Pressable } from "react-native";
 import DailyChart from "../../components/daily-chart";
+import { useEffect, useState } from "react";
+import { Link } from "expo-router";
 
 interface CardProps {
   title: string;
@@ -11,42 +23,52 @@ interface CardProps {
 }
 
 export function Manage() {
+  const [seeAll, setSeeAll] = useState(false);
+
   return (
     <>
-      <Chart />
       <View
-        style={{
-          position: "absolute",
-          top: 130,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        paddingTop={40}
+        display={seeAll ? "none" : "flex"}
+        flex={1}
+        alignItems="center"
+        justifyContent="center"
       >
-        <H4>Daily Budget</H4>
-        <H5>53,000</H5>
-        <Text>of</Text>
-        <H5>100,000</H5>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          width: "100%",
-          marginTop: 20,
-        }}
-      >
-        <View>
-          <Text style={{ marginBottom: 10, textAlign: "center" }}>
-            Billing Reminder
-          </Text>
-          <Text style={{ color: "#FFFFFF80" }}>16/07 - BCA Credit Card</Text>
-          <Text style={{ color: "#FFFFFF80" }}>16/07 - MEGA Credit Card</Text>
-          <Text style={{ color: "#FFFFFF80" }}>16/07 - BRI Credit Card</Text>
-          <Text style={{ color: "#FFFFFF80" }}>16/07 - House Rent</Text>
+        <Chart />
+        <View
+          style={{
+            position: "absolute",
+            top: 110,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <H4>Daily Budget</H4>
+          <H5>53,000</H5>
+          <Text>of</Text>
+          <H5>100,000</H5>
         </View>
-        <View>
-          <Text style={{ textAlign: "center" }}>Daily Spending</Text>
-          <DailyChart />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: "100%",
+            marginTop: 20,
+          }}
+        >
+          <View>
+            <Text style={{ marginBottom: 10, textAlign: "center" }}>
+              Billing Reminder
+            </Text>
+            <Text style={{ color: "#FFFFFF80" }}>16/07 - BCA Credit Card</Text>
+            <Text style={{ color: "#FFFFFF80" }}>16/07 - MEGA Credit Card</Text>
+            <Text style={{ color: "#FFFFFF80" }}>16/07 - BRI Credit Card</Text>
+            <Text style={{ color: "#FFFFFF80" }}>16/07 - House Rent</Text>
+          </View>
+          <View>
+            <Text style={{ textAlign: "center" }}>Daily Spending</Text>
+            <DailyChart />
+          </View>
         </View>
       </View>
 
@@ -55,9 +77,10 @@ export function Manage() {
           backgroundColor: "#093847",
           flex: 1,
           width: "100%",
-          marginTop: 20,
+          marginTop: seeAll ? 0 : 20,
           padding: 30,
           borderRadius: 30,
+          height: seeAll ? "100%" : "auto",
         }}
       >
         <View
@@ -77,7 +100,13 @@ export function Manage() {
               gap: 10,
             }}
           >
-            <Text>See all</Text>
+            <Button unstyled onPress={() => setSeeAll(!seeAll)}>
+              <Link href="/history" push asChild>
+                <Pressable>
+                  <Text>See all</Text>
+                </Pressable>
+              </Link>
+            </Button>
             <Plus />
           </View>
         </View>
@@ -119,7 +148,7 @@ function Card({ title, date }: CardProps) {
 
 const cards = [
   {
-    title: "Notification Title",
+    title: "Apapaun Title",
     date: "11:20",
     href: "/cryptocurrency",
   },

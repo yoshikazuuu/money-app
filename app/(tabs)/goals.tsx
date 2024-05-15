@@ -42,14 +42,14 @@ export default function GoalScreen() {
         <Button
           themeInverse
           size="$2"
-          style={{ borderRadius: "100%", paddingHorizontal: 20 }}
+          style={{ borderRadius: 100, paddingHorizontal: 20 }}
         >
           Notification
         </Button>
       </XStack>
 
       <StyledView>
-        <ScrollView width="100%" showsVerticalScrollIndicator={false}>
+        <ScrollView width="100" showsVerticalScrollIndicator={false}>
           <YStack flex={1}>
             {cards.map((card, idx) => (
               <Card key={idx} {...card} />
