@@ -11,11 +11,16 @@ import {
   YStack,
 } from "tamagui";
 import { LinearGradient } from "@tamagui/linear-gradient";
+import { Link, useFocusEffect } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCallback, useEffect, useState } from "react";
+import { formatter } from "../../lib/currency";
 
-interface CardProps {
-  title: string;
-  date: string;
-  href: string;
+interface GoalProps {
+  category: string;
+  amount: string;
+  description: string;
+  reached_by: string;
 }
 
 const StyledView = styled(View, {
@@ -30,6 +35,32 @@ const StyledView = styled(View, {
 });
 
 export default function GoalScreen() {
+  const [goals, setGoals] = useState<GoalProps[]>([]);
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("goals");
+      if (jsonValue != null) setGoals(JSON.parse(jsonValue));
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  const clearData = async () => {
+    try {
+      await AsyncStorage.removeItem("goals");
+      setGoals([]);
+    } catch (e) {
+      // remove error
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getData();
+    }, []) // Remove the semicolon and add a closing parenthesis here
+  );
+
   return (
     <LinearGradient
       colors={["#00264A", "#0D3B3D"]}
@@ -44,15 +75,31 @@ export default function GoalScreen() {
           size="$2"
           style={{ borderRadius: 100, paddingHorizontal: 20 }}
         >
-          Notification
+          Goals
         </Button>
       </XStack>
 
       <StyledView>
-        <ScrollView width="100" showsVerticalScrollIndicator={false}>
+        <XStack gap="$2">
+          <Link href="/set-goals" asChild>
+            <Button flex={1} marginBottom={20} themeInverse>
+              Set Goal
+            </Button>
+          </Link>
+          <Button
+            variant="outlined"
+            flex={1}
+            marginBottom={20}
+            onPress={clearData}
+          >
+            Clear Goals
+          </Button>
+        </XStack>
+
+        <ScrollView width="100%" showsVerticalScrollIndicator={false}>
           <YStack flex={1}>
-            {cards.map((card, idx) => (
-              <Card key={idx} {...card} />
+            {goals.map((card, idx) => (
+              <Card key={idx} data={card} />
             ))}
           </YStack>
         </ScrollView>
@@ -61,7 +108,7 @@ export default function GoalScreen() {
   );
 }
 
-function Card({ title, date }: CardProps) {
+function Card({ data }: { data: GoalProps }) {
   return (
     <View
       backgroundColor={"rgba(255,255,255,0.1)"}
@@ -74,75 +121,15 @@ function Card({ title, date }: CardProps) {
       justifyContent="space-between"
     >
       <View>
-        <H4>{title}</H4>
-        <Text style={{ color: "#FFFFFF80" }}>Simple Text</Text>
+        <H4>{data.category}</H4>
+        <Text style={{ color: "#FFFFFF80" }}>{data.description}</Text>
       </View>
       <View>
-        <Text>{date}</Text>
+        <H5 textAlign="right">{formatter.format(parseInt(data.amount))}</H5>
+        <Text textAlign="right" style={{ color: "#FFFFFF80" }}>
+          {data.reached_by}
+        </Text>
       </View>
     </View>
   );
 }
-
-const cards = [
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/cryptocurrency",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/stocks",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/cryptocurrency",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/stocks",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Goal Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-];

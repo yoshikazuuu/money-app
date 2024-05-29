@@ -2,10 +2,17 @@ import { StyleSheet } from "react-native";
 import { ScrollView, Text, View } from "tamagui";
 import PieChart from "react-native-pie-chart";
 
-export function Chart() {
+export function Chart({
+  budget = 1,
+  usedBudget = 1,
+}: {
+  budget: number;
+  usedBudget: number;
+}) {
   const widthAndHeight = 270;
-  const series = [123, 321, 123, 789, 537];
-  const sliceColor = ["#fbd203", "#ffb300", "#ff9100", "#ff6c00", "#ff3c00"];
+
+  const series = [usedBudget, budget - usedBudget];
+  const sliceColor = ["#60a34b", "#d64747"];
 
   return (
     <View>

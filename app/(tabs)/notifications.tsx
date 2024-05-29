@@ -11,12 +11,9 @@ import {
   YStack,
 } from "tamagui";
 import { LinearGradient } from "@tamagui/linear-gradient";
-
-interface CardProps {
-  title: string;
-  date: string;
-  href: string;
-}
+import { CardProps } from "../../lib/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 
 const StyledView = styled(View, {
   paddingHorizontal: 30,
@@ -30,6 +27,21 @@ const StyledView = styled(View, {
 });
 
 export default function NotificationScreen() {
+  const [notification, setNotification] = useState<CardProps[]>([]);
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("notification");
+      if (jsonValue != null) setNotification(JSON.parse(jsonValue));
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <LinearGradient
       colors={["#00264A", "#0D3B3D"]}
@@ -51,9 +63,11 @@ export default function NotificationScreen() {
       <StyledView>
         <ScrollView width="100%" showsVerticalScrollIndicator={false}>
           <YStack flex={1}>
-            {cards.map((card, idx) => (
-              <Card key={idx} {...card} />
-            ))}
+            {notification.length !== 0 ? (
+              notification.map((card, idx) => <Card key={idx} {...card} />)
+            ) : (
+              <Text alignSelf="center">No Notification</Text>
+            )}
           </YStack>
         </ScrollView>
       </StyledView>
@@ -83,66 +97,3 @@ function Card({ title, date }: CardProps) {
     </View>
   );
 }
-
-const cards = [
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/cryptocurrency",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/stocks",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/cryptocurrency",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/stocks",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-];

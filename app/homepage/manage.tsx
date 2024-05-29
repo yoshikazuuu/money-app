@@ -14,16 +14,64 @@ import { Chart } from "../../components/main-chart";
 
 import { Alert, Dimensions, Modal, Pressable } from "react-native";
 import DailyChart from "../../components/daily-chart";
-import { useEffect, useState } from "react";
 import { Link } from "expo-router";
-
-interface CardProps {
-  title: string;
-  date: string;
-}
+import { notificationCards } from "../../lib/dummy";
+import { useCallback, useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "expo-router";
+import { AmountProps } from "../../lib/types";
+import { Card } from "../../components/card-amount";
+import { formatter } from "../../lib/currency";
 
 export function Manage() {
   const [seeAll, setSeeAll] = useState(false);
+
+  const [data, setData] = useState<AmountProps[]>([]);
+  const [budget, setBudget] = useState(1);
+  const [usedBudget, setUsedBudget] = useState(1);
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("expenses");
+      if (jsonValue != null) {
+        setData(JSON.parse(jsonValue));
+      }
+    } catch (e) {
+      // error reading value
+      console.error("Error reading expenses:", e);
+    }
+  };
+
+  const getBudget = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("budget");
+      if (jsonValue != null) {
+        setBudget(parseInt(JSON.parse(jsonValue).amount));
+      }
+    } catch (e) {
+      // error reading value
+      console.error("Error reading budget:", e);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        await getData();
+        await getBudget();
+      };
+      fetchData();
+    }, [])
+  );
+
+  useEffect(() => {
+    setUsedBudget(
+      budget -
+        data
+          .map((item) => parseInt(item.amount))
+          .reduce((prev, next) => prev + next, 0)
+    );
+  }, [budget, data]);
 
   return (
     <>
@@ -34,21 +82,34 @@ export function Manage() {
         alignItems="center"
         justifyContent="center"
       >
-        <Chart />
+        <Chart
+          budget={budget < 0 ? 1 : budget}
+          usedBudget={usedBudget < 0 ? 1 : usedBudget}
+        />
         <View
           style={{
             position: "absolute",
-            top: 110,
+            top: 170,
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <H4>Daily Budget</H4>
-          <H5>53,000</H5>
-          <Text>of</Text>
-          <H5>100,000</H5>
+          <Link href="/set-budget" push asChild>
+            <YStack alignItems="center">
+              <Text>Daily Budget</Text>
+              <H4>
+                {formatter.format(usedBudget)} <Text fontSize="$4">of</Text>
+              </H4>
+              <H4>{formatter.format(budget)}</H4>
+              <Link href="/set-budget" push asChild>
+                <Button marginTop={10} fontSize={10} themeInverse size="$2">
+                  Set Budget
+                </Button>
+              </Link>
+            </YStack>
+          </Link>
         </View>
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             justifyContent: "space-around",
@@ -69,7 +130,7 @@ export function Manage() {
             <Text style={{ textAlign: "center" }}>Daily Spending</Text>
             <DailyChart />
           </View>
-        </View>
+        </View> */}
       </View>
 
       <View
@@ -101,19 +162,27 @@ export function Manage() {
             }}
           >
             <Button unstyled onPress={() => setSeeAll(!seeAll)}>
-              <Link href="/history" push asChild>
-                <Pressable>
-                  <Text>See all</Text>
-                </Pressable>
+              <Link href="/history" push>
+                <Text>See all</Text>
               </Link>
             </Button>
-            <Plus />
+
+            <Link href="/add-expense" asChild>
+              <Button
+                unstyled
+                height="100%"
+                backgroundColor="$background025"
+                borderRadius={5}
+              >
+                <Plus />
+              </Button>
+            </Link>
           </View>
         </View>
 
         <ScrollView width="100%" showsVerticalScrollIndicator={false}>
           <YStack flex={1}>
-            {cards.map((card, idx) => (
+            {data.map((card, idx) => (
               <Card key={idx} {...card} />
             ))}
           </YStack>
@@ -122,89 +191,3 @@ export function Manage() {
     </>
   );
 }
-
-function Card({ title, date }: CardProps) {
-  return (
-    <View
-      backgroundColor={"rgba(255,255,255,0.1)"}
-      flex={1}
-      flexDirection="row"
-      marginBottom={20}
-      padding={10}
-      borderRadius={10}
-      alignItems="center"
-      justifyContent="space-between"
-    >
-      <View>
-        <H4>{title}</H4>
-        <Text style={{ color: "#FFFFFF80" }}>Simple Text</Text>
-      </View>
-      <View>
-        <Text>{date}</Text>
-      </View>
-    </View>
-  );
-}
-
-const cards = [
-  {
-    title: "Apapaun Title",
-    date: "11:20",
-    href: "/cryptocurrency",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/stocks",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/cryptocurrency",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/stocks",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/bonds",
-  },
-  {
-    title: "Notification Title",
-    date: "11:20",
-    href: "/real-estate",
-  },
-];

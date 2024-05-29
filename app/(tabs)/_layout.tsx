@@ -13,7 +13,7 @@ export default function TabLayout() {
         tabBarShowLabel: false,
         tabBarStyle: {
           paddingTop: 10,
-          backgroundColor: "rgba(114, 161, 237, 0.6)",
+          backgroundColor: "#0c556e",
           position: "absolute",
           bottom: 0,
           borderTopEndRadius: 25,

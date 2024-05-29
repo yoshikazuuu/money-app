@@ -1,8 +1,8 @@
 import { Button, H1, styled, Text, View, XStack } from "tamagui";
 import { LinearGradient } from "@tamagui/linear-gradient";
-import { useState } from "react";
 import { Manage } from "../homepage/manage";
 import { Invest } from "../homepage/invest";
+import { useState } from "react";
 
 const StyledView = styled(View, {
   backgroundColor: "#00162B",
@@ -15,7 +15,6 @@ const StyledView = styled(View, {
 
 export default function TabOneScreen() {
   const [isManage, setIsManage] = useState(true);
-
   return (
     <LinearGradient
       colors={["#00264A", "#0D3B3D"]}

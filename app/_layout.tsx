@@ -60,12 +60,9 @@ function RootLayoutNav() {
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme as any}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="history"
-            options={{ presentation: "card", headerShown: false }}
-          />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="history" options={{ presentation: "card" }} />
         </Stack>
       </ThemeProvider>
     </TamaguiProvider>
