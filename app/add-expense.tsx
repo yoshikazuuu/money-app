@@ -122,7 +122,7 @@ export default function AddExpense() {
           ))}
           <Pressable>
             <Button themeInverse size="$3" marginBottom={20} onPress={saveGoal}>
-              Set Goal
+              Add Expense
             </Button>
           </Pressable>
         </>

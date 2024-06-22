@@ -56,7 +56,7 @@ const IconView = styled(View, {
 
 export default function SetGoals() {
   const [data, setData] = useState({
-    category: "Invesment",
+    category: "Investment",
     amount: "100000",
     description: "Some description",
     reached_by: "11/11/2022",
@@ -159,7 +159,7 @@ export default function SetGoals() {
 
 const goals_category = [
   {
-    title: "Invesment",
+    title: "Investment",
     icon: <Coins />,
   },
   {

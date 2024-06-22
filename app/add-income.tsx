@@ -60,21 +60,74 @@ export default function AddIncome() {
     description: "",
   });
 
+  const [budget, setBudget] = useState({
+    income: "0",
+  });
+
+  const getBudget = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("budget");
+      if (jsonValue != null) {
+        setBudget(JSON.parse(jsonValue));
+      }
+    } catch (e) {
+      // error reading value
+      console.error("Error reading budget:", e);
+    }
+  };
+
   const saveGoal = async () => {
     try {
+      // Retrieve existing incomes from AsyncStorage
       const jsonValue = await AsyncStorage.getItem("incomes");
       let currentGoals = jsonValue != null ? JSON.parse(jsonValue) : [];
 
-      // Append new data to the top
+      // Perform calculations if budget is defined
+      let newBudget = { ...budget };
+
+      if (budget && budget.income) {
+        // Initialize newIncome with the current income parsed as an integer
+        let newIncome = parseInt(budget.income);
+
+        // Ensure newIncome is a valid number
+        if (isNaN(newIncome)) {
+          newIncome = 0;
+        }
+
+        // Update the new budget amount by summing current budget and each goal amount
+        currentGoals.forEach((goal: { amount: string }) => {
+          const goalAmount = parseInt(goal.amount);
+
+          // Ensure goalAmount is a valid number before adding
+          if (!isNaN(goalAmount)) {
+            newIncome += goalAmount;
+          }
+        });
+
+        // Update newBudget with the new calculated income
+        newBudget.income = newIncome.toString();
+      }
+
+      // Update the budget state with the new calculated budget
+      setBudget(newBudget);
+
+      // Append new data to the top of the current goals array
       currentGoals.unshift(data);
 
-      await AsyncStorage.setItem("incomes", JSON.stringify(currentGoals)).then(
-        () => router.back()
-      );
+      // Save the updated budget and goals to AsyncStorage
+      await AsyncStorage.setItem("budget", JSON.stringify(newBudget));
+      await AsyncStorage.setItem("incomes", JSON.stringify(currentGoals));
+
+      // Navigate back after saving
+      router.back();
     } catch (e) {
       console.error("Error saving value", e);
     }
   };
+
+  useEffect(() => {
+    getBudget();
+  }, []);
 
   return (
     <LinearGradient

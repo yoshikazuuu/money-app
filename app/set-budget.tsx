@@ -61,12 +61,12 @@ const IconView = styled(View, {
 
 export default function SetBudget() {
   const [data, setData] = useState({
-    category: "Invesment",
-    amount: "100000",
+    category: "",
+    amount: "",
+    income: "",
   });
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [goals, setGoals] = useState([]);
 
   const saveGoal = async () => {
     try {
@@ -80,20 +80,20 @@ export default function SetBudget() {
 
   const calculateDaily = () => {
     const amountParsed = parseInt(data.amount);
-    let daily = 0;
+    let monthly = 0;
 
     if (data.category === goals_category[0].title) {
-      daily = amountParsed;
+      monthly = amountParsed * 30;
     }
     if (data.category === goals_category[1].title) {
-      daily = amountParsed / 7;
+      monthly = amountParsed * 4.3;
     }
     if (data.category === goals_category[2].title) {
-      daily = amountParsed / 30;
+      monthly = amountParsed;
     }
-    setData({ ...data, amount: daily.toString() });
+    setData({ ...data, amount: monthly.toString() });
 
-    return daily;
+    return monthly;
   };
 
   return (
@@ -188,7 +188,7 @@ export default function SetBudget() {
             <H4>Your daily budget will be</H4>
 
             <H3 alignSelf="center" marginVertical={50}>
-              {formatter.format(parseInt(data.amount))}
+              {formatter.format(parseInt(data.amount) / 30)}
             </H3>
 
             <XStack gap="$3">
@@ -202,7 +202,7 @@ export default function SetBudget() {
               </Button>
 
               <Button flex={1} themeInverse size="$3" onPress={saveGoal}>
-                Set Goal
+                Set Budget
               </Button>
             </XStack>
           </View>

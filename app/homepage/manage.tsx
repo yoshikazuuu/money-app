@@ -35,6 +35,8 @@ export function Manage() {
       const jsonValue = await AsyncStorage.getItem("expenses");
       if (jsonValue != null) {
         setData(JSON.parse(jsonValue));
+      } else {
+        setData([]);
       }
     } catch (e) {
       // error reading value
@@ -46,7 +48,16 @@ export function Manage() {
     try {
       const jsonValue = await AsyncStorage.getItem("budget");
       if (jsonValue != null) {
-        setBudget(parseInt(JSON.parse(jsonValue).amount));
+        setBudget(
+          parseInt(
+            (
+              Number(JSON.parse(jsonValue).amount) +
+              Number(JSON.parse(jsonValue).income)
+            ).toString()
+          ) / 30
+        );
+      } else {
+        setBudget(1);
       }
     } catch (e) {
       // error reading value
@@ -60,7 +71,12 @@ export function Manage() {
         await getData();
         await getBudget();
       };
+
       fetchData();
+
+      return () => {
+        fetchData();
+      };
     }, [])
   );
 

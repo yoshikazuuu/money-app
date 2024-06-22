@@ -56,6 +56,7 @@ export default function Income() {
       getData();
     }, []) // Remove the semicolon and add a closing parenthesis here
   );
+
   return (
     <View
       width="100%"

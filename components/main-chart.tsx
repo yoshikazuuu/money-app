@@ -10,8 +10,8 @@ export function Chart({
   usedBudget: number;
 }) {
   const widthAndHeight = 270;
-
-  const series = [usedBudget, budget - usedBudget];
+  const leftOver = budget - usedBudget < 0 ? 1 : budget - usedBudget;
+  const series = [usedBudget, leftOver];
   const sliceColor = ["#60a34b", "#d64747"];
 
   return (
