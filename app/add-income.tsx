@@ -97,7 +97,6 @@ export default function AddIncome() {
         // Update the new budget amount by summing current budget and each goal amount
         currentGoals.forEach((goal: { amount: string }) => {
           const goalAmount = parseInt(goal.amount);
-          console.log("goalAmount", goalAmount);
 
           // Ensure goalAmount is a valid number before adding
           if (!isNaN(goalAmount)) {
@@ -108,8 +107,6 @@ export default function AddIncome() {
         // Update newBudget with the new calculated income
         newBudget.income = newIncome.toString();
       }
-
-      console.log("newBudget", newBudget);
 
       // Update the budget state with the new calculated budget
       setBudget(newBudget);
