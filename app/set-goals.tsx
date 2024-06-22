@@ -71,7 +71,7 @@ export default function SetGoals() {
       let currentGoals = jsonValue != null ? JSON.parse(jsonValue) : [];
 
       // Append new data to the top
-      currentGoals.unshift(data);
+      currentGoals.unshift({ ...data, is_reached: false });
 
       await AsyncStorage.setItem("goals", JSON.stringify(currentGoals)).then(
         () => router.back()

@@ -21,6 +21,7 @@ interface GoalProps {
   amount: string;
   description: string;
   reached_by: string;
+  is_reached: boolean;
 }
 
 const StyledView = styled(View, {
@@ -111,7 +112,9 @@ export default function GoalScreen() {
 function Card({ data }: { data: GoalProps }) {
   return (
     <View
-      backgroundColor={"rgba(255,255,255,0.1)"}
+      backgroundColor={
+        data.is_reached ? "rgba(0,255,0,0.2)" : "#rgba(255,0,0,0.5)"
+      }
       flex={1}
       flexDirection="row"
       marginBottom={20}

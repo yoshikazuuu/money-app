@@ -99,7 +99,7 @@ export function Manage() {
         justifyContent="center"
       >
         <Chart
-          budget={budget < 0 ? 1 : budget}
+          budget={budget <= 0 ? 1 : budget}
           usedBudget={usedBudget < 0 ? 1 : usedBudget}
         />
         <View
